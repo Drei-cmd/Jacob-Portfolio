@@ -58,7 +58,7 @@ html, body {
   background:
     radial-gradient(circle at 30% 40%, rgba(221, 139, 76, 0.12), transparent 55%),
     linear-gradient(160deg, var(--bg-dark-1) 0%, var(--bg-dark-2) 100%);
-  padding: 48px 30vw;
+  padding: 48px 50vw;
 }
 
 .logo-btn {
