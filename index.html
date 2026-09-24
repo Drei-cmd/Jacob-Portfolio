@@ -11,6 +11,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/style.css" />
+  <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init({
+        publicKey: "tb_UyPiot22T--Nx2",
+      });
+   })();
+</script>
 </head>
 <body>
 
@@ -525,9 +535,7 @@
       <div class="contact-form-wrapper">
 
         <form
-          class="contact-form"
-          action="YOUR_FORMSPREE_ENDPOINT"
-          method="POST"
+          class="contact-form" id="contact-form"
         >
 
           <!-- NAME -->
@@ -660,7 +668,7 @@
       </span>
 
       <span>
-       SaladboiCopyright
+        Edited with intention
       </span>
 
     </div>
