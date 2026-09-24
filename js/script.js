@@ -42,10 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-  /* ==========================================================
-     CAROUSEL ELEMENTS
-     ========================================================== */
-
   const slides = Array.from(
     document.querySelectorAll(".project-slide")
   );
@@ -69,9 +65,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-  /* ==========================================================
-     CLEAR PREVIEW TIMER
-     ========================================================== */
 
   function clearPreviewTimer() {
 
@@ -87,10 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-  /* ==========================================================
-     STOP VIDEO
-     ========================================================== */
-
   function stopVideo(video) {
 
     if (!video) {
@@ -99,11 +88,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     video.pause();
-
-
-    /*
-     * Reset to the beginning.
-     */
 
     try {
 
@@ -121,10 +105,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-
-  /* ==========================================================
-     STOP ALL SLIDE VIDEOS
-     ========================================================== */
 
   function stopAllVideos() {
 
@@ -144,18 +124,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         stopVideo(video);
 
-        /*
-         * Reset manual state.
-         */
 
         video.dataset.manualPlay = "false";
 
-        /*
-         * Videos that aren't the active,
-         * manually-played one should never
-         * show the native scrubber/controls
-         * or carry over audio.
-         */
+  
 
         video.controls = false;
 
@@ -180,9 +152,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-  /* ==========================================================
-     UPDATE CAROUSEL INDICATOR
-     ========================================================== */
 
   function updateIndicators() {
 
@@ -207,9 +176,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-  /* ==========================================================
-     START 3-SECOND PREVIEW
-     ========================================================== */
 
   function startPreview(slide) {
 
@@ -225,10 +191,6 @@ document.addEventListener("DOMContentLoaded", () => {
     clearPreviewTimer();
 
 
-    /*
-     * Autoplay must be muted, and the
-     * preview shouldn't show the scrubber.
-     */
 
     video.muted = true;
 
@@ -237,17 +199,10 @@ document.addEventListener("DOMContentLoaded", () => {
     video.controls = false;
 
 
-    /*
-     * This tells us that the user hasn't
-     * manually started this video yet.
-     */
+
 
     video.dataset.manualPlay = "false";
 
-
-    /*
-     * Always start preview at 0 seconds.
-     */
 
     try {
 
@@ -260,26 +215,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /*
-     * This function starts the preview.
-     */
-
     const beginPreview = () => {
 
-      /*
-       * Don't start preview if the slide
-       * has already been changed.
-       */
 
       if (!slide.classList.contains("active")) {
         return;
       }
 
 
-      /*
-       * Don't start preview if the user
-       * already clicked play.
-       */
 
       if (video.dataset.manualPlay === "true") {
         return;
@@ -289,11 +232,6 @@ document.addEventListener("DOMContentLoaded", () => {
       video.muted = true;
 
       video.volume = 0;
-
-
-      /*
-       * Ask the browser to play.
-       */
 
       const playPromise = video.play();
 
@@ -307,21 +245,12 @@ document.addEventListener("DOMContentLoaded", () => {
         playPromise
           .then(() => {
 
-            /*
-             * Playback successfully started.
-             *
-             * Now allow exactly 3 seconds.
-             */
 
             clearPreviewTimer();
 
 
             previewTimer = setTimeout(() => {
 
-              /*
-               * Make sure we're still on
-               * the same slide.
-               */
 
               if (
                 slide.classList.contains("active") &&
@@ -348,13 +277,6 @@ document.addEventListener("DOMContentLoaded", () => {
           })
           .catch((error) => {
 
-            /*
-             * Browser prevented autoplay.
-             *
-             * This is normal browser behavior in
-             * some circumstances. The play button
-             * remains available.
-             */
 
             console.log(
               "Preview autoplay was blocked:",
@@ -368,20 +290,12 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
 
-    /*
-     * If the browser already has enough data,
-     * start immediately.
-     */
-
     if (video.readyState >= 3) {
 
       beginPreview();
 
     } else {
 
-      /*
-       * Wait until enough video data has loaded.
-       */
 
       video.addEventListener(
         "canplay",
@@ -396,11 +310,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-
-  /* ==========================================================
-     SHOW SLIDE
-     ========================================================== */
-
   function showSlide(index) {
 
     clearPreviewTimer();
@@ -408,9 +317,6 @@ document.addEventListener("DOMContentLoaded", () => {
     stopAllVideos();
 
 
-    /*
-     * Loop to the last slide.
-     */
 
     if (index < 0) {
 
@@ -419,9 +325,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /*
-     * Loop to the first slide.
-     */
 
     if (index >= slides.length) {
 
@@ -433,9 +336,6 @@ document.addEventListener("DOMContentLoaded", () => {
     currentSlide = index;
 
 
-    /*
-     * Hide every slide.
-     */
 
     slides.forEach((slide) => {
 
@@ -444,10 +344,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    /*
-     * Show current slide.
-     */
-
     const activeSlide =
       slides[currentSlide];
 
@@ -455,26 +351,13 @@ document.addEventListener("DOMContentLoaded", () => {
     activeSlide.classList.add("active");
 
 
-    /*
-     * Update indicator.
-     */
-
     updateIndicators();
-
-
-    /*
-     * Start automatic preview.
-     */
 
     startPreview(activeSlide);
 
   }
 
 
-
-  /* ==========================================================
-     MANUAL PLAY
-     ========================================================== */
 
   function playVideoManually(slide) {
 
@@ -492,45 +375,18 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-
-    /*
-     * Stop the 3-second preview timer.
-     */
-
     clearPreviewTimer();
-
-
-    /*
-     * This is now a user-controlled video.
-     */
 
     video.dataset.manualPlay = "true";
 
 
-    /*
-     * This is a direct user gesture (click), so
-     * browsers allow audio here — unmute and
-     * restore normal volume.
-     */
 
     video.muted = false;
 
     video.volume = 1;
 
 
-    /*
-     * Show the native scrubber / timestamps /
-     * volume control now that the user is in
-     * charge of playback.
-     */
-
     video.controls = true;
-
-
-    /*
-     * Hide the large custom play button —
-     * the native controls take over from here.
-     */
 
     if (container) {
 
@@ -558,12 +414,6 @@ document.addEventListener("DOMContentLoaded", () => {
           error
         );
 
-
-        /*
-         * Playback failed, so make
-         * the play button available again.
-         */
-
         if (container) {
 
           container.classList.remove(
@@ -578,12 +428,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
 
-
-
-  /* ==========================================================
-     PLAY BUTTONS
-     ========================================================== */
-
   const playButtons =
     document.querySelectorAll(
       ".video-play-button"
@@ -595,11 +439,6 @@ document.addEventListener("DOMContentLoaded", () => {
     button.addEventListener(
       "click",
       (event) => {
-
-        /*
-         * Prevent the click from triggering
-         * anything underneath.
-         */
 
         event.stopPropagation();
 
@@ -623,11 +462,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-
-  /* ==========================================================
-     CLICKING THE VIDEO
-     ========================================================== */
-
   const videos =
     document.querySelectorAll(
       ".project-video"
@@ -639,15 +473,6 @@ document.addEventListener("DOMContentLoaded", () => {
     video.addEventListener(
       "click",
       () => {
-
-        /*
-         * Once native controls are showing,
-         * let the browser handle clicks on
-         * the scrubber / buttons itself —
-         * only toggle play/pause when the
-         * video hasn't been manually started
-         * yet (i.e. still in preview mode).
-         */
 
         if (video.dataset.manualPlay === "true") {
           return;
@@ -672,11 +497,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   });
 
-
-
-  /* ==========================================================
-     NEXT ARROW
-     ========================================================== */
 
   const nextButtons =
     document.querySelectorAll(
@@ -703,10 +523,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-  /* ==========================================================
-     PREVIOUS ARROW
-     ========================================================== */
-
   const previousButtons =
     document.querySelectorAll(
       ".carousel-prev"
@@ -730,12 +546,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
   });
 
-
-
-  /* ==========================================================
-     INITIALIZE
-     ========================================================== */
-
   showSlide(0);
 
+});
+
+const contactForm = document.getElementById("contact-form");
+
+contactForm.addEventListener("submit", function (event) {
+  event.preventDefault(); // stops the page reload
+
+  const params = {
+    name: document.getElementById("contact-name").value,
+    email: document.getElementById("contact-email").value,
+    message: document.getElementById("contact-message").value,
+  };
+
+  emailjs
+    .send("service_730llqy", "template_wf4acqw", params)
+    .then(() => {
+      alert("Email successfully sent!");
+      contactForm.reset();
+    })
+    .catch((error) => {
+      console.error("EmailJS error:", error);
+      alert("Something went wrong. Please try again.");
+    });
 });
